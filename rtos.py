@@ -176,6 +176,7 @@ while True:
                 # Eliminate false positives like poles being detected as persons
                 if track_memory[track_id]["speed_history"]:
                     if avg_speed < 2 and len(track_memory[track_id]["speed_history"]) > 20:
+                        print(f"Ignored items count for ID {track_id}: {len(track_memory[track_id]['speed_history'])} | Avg Speed: {avg_speed:.2f} px/s")
                         stable_class = "ignore"
                         track_memory[track_id]["stable_class"] = stable_class
                 
@@ -213,16 +214,16 @@ while True:
                     cv2.rectangle(annotated_frame, (x1, y1), (x2, y2), state_color, 2)
                     cv2.putText(annotated_frame, stable_class, (x1, y1 - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, state_color, 2)
 
-                # Add ID, speed, and state text to each object
-                cv2.putText(
-                    annotated_frame,
-                    f"ID:{track_id} {current_state} {avg_speed:.1f}px/s",
-                    (x1, y1 - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    state_color,
-                    2
-                )
+                    # Add ID, speed, and state text to each object
+                    cv2.putText(
+                        annotated_frame,
+                        f"ID:{track_id} {current_state} {avg_speed:.1f}px/s",
+                        (x1, y1 - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.5,
+                        state_color,
+                        2
+                    )
 
             else:
                 track_id = -1  # No ID assigned yet
